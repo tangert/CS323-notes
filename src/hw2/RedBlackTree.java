@@ -16,19 +16,23 @@ public class RedBlackTree {
     String lowAlphabet = "abcdefghijklmnopqrstuvwxyz";
     String highAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
-    for(int i = 0; i < lowAlphabet.length(); i++) {
-      myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
-    }
+//    for(int i = 0; i < lowAlphabet.length(); i++) {
+//      myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
+//    }
 
     for(int i = 0; i < 10; i++) {
       myTree.easyAdd(Integer.toString(i));
     }
 
-    for(int i = 0; i < 9; i++) {
-      myTree.remove(Integer.toString(i));
-    }
+//    for(int i = 0; i < 9; i++) {
+//      myTree.remove(Integer.toString(i));
+//    }
+
 
     System.out.println("Searched value: " + myTree.search("2"));
+    myTree.add("2", "updated2-val");
+    System.out.println("Searched value after update: " + myTree.search("2"));
+
     System.out.println(myTree.toString() + "\n");
 
     System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
@@ -101,32 +105,37 @@ public class RedBlackTree {
     Node x = root;
     Node toBeAdded = new Node(key, value, BLACK);
 
-    if (root == nil) {
-      root = toBeAdded;
-      root.parent = nil;
-    } else {
-      while (x != nil) {
-        y = x;
-        if ( compare(toBeAdded.key, x.key) < 0) {
-          x = x.left;
-        } else {
-          x = x.right;
-        }
-      }
-      toBeAdded.parent = y;
-
-      if (y == nil) {
+    if (getNodeFromKey(key) == null) {
+      System.out.println("Unique node!");
+      if (root == nil) {
         root = toBeAdded;
-      }
-      else if (compare(toBeAdded.key, y.key) < 0) {
-        y.left = toBeAdded;
+        root.parent = nil;
       } else {
-        y.right = toBeAdded;
+        while (x != nil) {
+          y = x;
+          if (compare(toBeAdded.key, x.key) < 0) {
+            x = x.left;
+          } else {
+            x = x.right;
+          }
+        }
+        toBeAdded.parent = y;
+
+        if (y == nil) {
+          root = toBeAdded;
+        } else if (compare(toBeAdded.key, y.key) < 0) {
+          y.left = toBeAdded;
+        } else {
+          y.right = toBeAdded;
+        }
+        toBeAdded.left = nil;
+        toBeAdded.right = nil;
+        toBeAdded.color = RED;
+        addFix(toBeAdded);
       }
-      toBeAdded.left = nil;
-      toBeAdded.right = nil;
-      toBeAdded.color = RED;
-      addFix(toBeAdded);
+    } else {
+      System.out.println("Node exists already! Updating value.");
+      getNodeFromKey(key).value = value;
     }
 
   }
