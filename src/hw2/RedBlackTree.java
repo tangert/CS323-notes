@@ -1,6 +1,4 @@
 package hw2;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import java.util.*;
 
 /**
@@ -11,24 +9,71 @@ import java.util.*;
 public class RedBlackTree {
 
   public static void main(String[] args){
-    System.out.println("Hello world");
+    System.out.println("WE WORKIN");
+    
+    RedBlackTree myTree = new RedBlackTree();
+    
+    String lowAlphabet = "abcdefghijklmnopqrstuvwxyz";
+    String highAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    
+    for(int i = 0; i < lowAlphabet.length(); i++) {
+      myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
+    }
+
+    for(int i = 0; i < 10; i++) {
+      myTree.easyAdd(Integer.toString(i));
+    }   
+     
+    System.out.println(myTree.toString() + "\n");
+    
+    System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
+    System.out.println("Black Count: " + myTree.blacks.size() + ":" + myTree.blacks);
+    System.out.println("Nil Count: " + myTree.nils.size());
   }
 
   //To String
   public String toString() {
+
+    
+    Node current = root;
+    return preOrderTraversal(current);
+  }
+
+  public String preOrderTraversal(Node node) {
+    
     /*
     (key:value (left-subtree) (right-subtree))
     If the key:value pair is contained in a red node, prepend a star to it: *key:value
     If the key:value pair is contained in a black node, prepend a pound sign to it: #key:value
       */
+      
+    if (node == nil) {
+      System.out.print("(NIL)");
+      nils.add("NIL");
+      return"";
+    } else if (node.color == RED) {
+      System.out.print("(*" + node.key + ":" + node.value);
+      reds.add(node.key);
+    } else if (node.color == BLACK) {
+      System.out.print("(#" + node.key + ":" + node.value);
+      blacks.add(node.key);
+    }
 
+    preOrderTraversal(node.left);
+    preOrderTraversal(node.right);
+    System.out.print(")");
     return "";
-  }
 
+  }
 
   //Storing RED and BLACK as booleans.
   private static final boolean RED = true;
   private static final boolean BLACK = false;
+  
+  ArrayList<String> reds = new ArrayList<String>();
+  ArrayList<String> blacks = new ArrayList<String>();
+  ArrayList<String> nils = new ArrayList<String>();
+  
   //placeholder nil
   private Node nil = new Node();
   //Root node.
@@ -45,50 +90,89 @@ public class RedBlackTree {
   //ADD
   public void add(String key, String value) {
 
-    Node temp = root;
+    Node y = nil;
+    Node x = root;
+    Node toBeAdded = new Node(key, value, BLACK);
+
     if (root == nil) {
-      root = new Node(key, value, BLACK);
+      root = toBeAdded;
       root.parent = nil;
     }
     else {
-      Node newNode = new Node();
-      newNode.color = RED;
-      int keyComparison = compare(newNode.key, key);
-
-      while(true) {
-        //traversing to the left
-        if (keyComparison < 0) {
-          if (temp.left == nil) {
-            temp.left = newNode;
-            newNode.parent = temp;
-            break;
-          } else {
-            temp = temp.left;
-          }
-        }
-        //traversing to the right
-        else if (keyComparison >= 0) {
-          if (temp.right == nil) {
-            temp.right = newNode;
-            break;
-          }
-          else {
-            temp = temp.right;
-          }
+      while (x != nil) {
+        y = x;
+        if ( compare(toBeAdded.key, x.key) < 0) {
+          x = x.left;
+        } else {
+          x = x.right;
         }
       }
-      addFix(newNode);
+      toBeAdded.parent = y;
+
+      if (y == nil) {
+        root = toBeAdded;
+      }
+      else if (compare(toBeAdded.key, y.key) < 0) {
+        y.left = toBeAdded;
+      } else {
+        y.right = toBeAdded;
+      }
+      toBeAdded.left = nil;
+      toBeAdded.right = nil;
+      toBeAdded.color = RED;
+      addFix(toBeAdded);
     }
+
+  }
+  
+  //ADD for test purposes
+  //automatically creates a value with the appropriate key.
+  public void easyAdd(String key) {
+
+    Node y = nil;
+    Node x = root;
+    String val = key + "-val";
+    Node toBeAdded = new Node(key, val, BLACK);
+
+    if (root == nil) {
+      root = toBeAdded;
+      root.parent = nil;
+    }
+    else {
+      while (x != nil) {
+        y = x;
+        if ( compare(toBeAdded.key, x.key) < 0) {
+          x = x.left;
+        } else {
+          x = x.right;
+        }
+      }
+      toBeAdded.parent = y;
+
+      if (y == nil) {
+        root = toBeAdded;
+      }
+      else if (compare(toBeAdded.key, y.key) < 0) {
+        y.left = toBeAdded;
+      } else {
+        y.right = toBeAdded;
+      }
+      toBeAdded.left = nil;
+      toBeAdded.right = nil;
+      toBeAdded.color = RED;
+      addFix(toBeAdded);
+    }
+
   }
 
   //REMOVE
   public void remove(String key) {
     //this would be the equivalent of the input node.
     Node toBeRemoved = getNodeFromKey(key);
-
     if(toBeRemoved==null) {
       System.out.println("whoops!");
     }
+    
     else {
       Node x;
       Node y = toBeRemoved; // temporary reference y
@@ -129,7 +213,7 @@ public class RedBlackTree {
     } else {
       while (current != nil) {
         if (current.key.equals(key)) {
-          return current.key;
+          return current.value;
         }
         else if( compare(current.key, key) < 0) {
           current = current.right;
@@ -346,14 +430,6 @@ public class RedBlackTree {
       node = node.left;
     }
     return node.value;
-  }
-
-  public boolean treeIsEmpty() {
-    return (root.right == null) && (root.left == null);
-  }
-
-  public boolean subTreeIsEmpty(Node node) {
-    return (node.right == null) && (node.left == null);
   }
 
   private class Node {
