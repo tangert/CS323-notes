@@ -10,73 +10,81 @@ public class RedBlackTree {
 
   public static void main(String[] args){
     System.out.println("WE WORKIN");
-    
+
     RedBlackTree myTree = new RedBlackTree();
-    
+
     String lowAlphabet = "abcdefghijklmnopqrstuvwxyz";
     String highAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    
+
     for(int i = 0; i < lowAlphabet.length(); i++) {
       myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
     }
 
     for(int i = 0; i < 10; i++) {
       myTree.easyAdd(Integer.toString(i));
-    }   
-     
+    }
+
+    for(int i = 0; i < 9; i++) {
+      myTree.remove(Integer.toString(i));
+    }
+
+    System.out.println("Searched value: " + myTree.search("2"));
     System.out.println(myTree.toString() + "\n");
-    
+
     System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
     System.out.println("Black Count: " + myTree.blacks.size() + ":" + myTree.blacks);
     System.out.println("Nil Count: " + myTree.nils.size());
-  }
-
-  //To String
-  public String toString() {
-
-    
-    Node current = root;
-    return preOrderTraversal(current);
-  }
-
-  public String preOrderTraversal(Node node) {
-    
-    /*
-    (key:value (left-subtree) (right-subtree))
-    If the key:value pair is contained in a red node, prepend a star to it: *key:value
-    If the key:value pair is contained in a black node, prepend a pound sign to it: #key:value
-      */
-      
-    if (node == nil) {
-      System.out.print("(NIL)");
-      nils.add("NIL");
-      return"";
-    } else if (node.color == RED) {
-      System.out.print("(*" + node.key + ":" + node.value);
-      reds.add(node.key);
-    } else if (node.color == BLACK) {
-      System.out.print("(#" + node.key + ":" + node.value);
-      blacks.add(node.key);
-    }
-
-    preOrderTraversal(node.left);
-    preOrderTraversal(node.right);
-    System.out.print(")");
-    return "";
+    System.out.println(myTree.toString(myTree.getNodeFromKey("a")));
 
   }
 
-  //Storing RED and BLACK as booleans.
-  private static final boolean RED = true;
-  private static final boolean BLACK = false;
-  
+  //testing variables
   ArrayList<String> reds = new ArrayList<String>();
   ArrayList<String> blacks = new ArrayList<String>();
   ArrayList<String> nils = new ArrayList<String>();
-  
-  //placeholder nil
+  String treeTravesalString = "";
+
+  //toString for the entire tree.
+  public String toString() {
+    treeTravesalString = "";
+    return preOrderTraversal(root);
+  }
+
+  //this toString prints the tree starting at any chosen root node
+  public String toString(Node rootNode) {
+    treeTravesalString = "";
+    if(rootNode == null) return "No subtree at this node";
+    else {
+      System.out.println("\nSub tree at node: " + rootNode.key);
+      return preOrderTraversal(rootNode);
+    }
+  }
+
+  /*
+  (key:value (left-subtree) (right-subtree))
+  If the key:value pair is contained in a red node, prepend a star to it: *key:value
+  If the key:value pair is contained in a black node, prepend a pound sign to it: #key:value
+  */
+  public String preOrderTraversal(Node node) {
+      if (node == nil) {
+        nils.add("NIL");
+        return treeTravesalString+=("(NIL)");
+      } else if (node.color == RED) {
+        reds.add(node.key);
+        treeTravesalString+=("(*" + node.key + ":" + node.value);
+      } else if (node.color == BLACK) {
+        blacks.add(node.key);
+        treeTravesalString+=("(#" + node.key + ":" + node.value);
+      }
+
+      preOrderTraversal(node.left);
+      preOrderTraversal(node.right);
+      return treeTravesalString+=(")");
+  }
+
+  private static final boolean RED = true;
+  private static final boolean BLACK = false;
   private Node nil = new Node();
-  //Root node.
   private Node root = nil;
 
   //Constructor
@@ -87,9 +95,8 @@ public class RedBlackTree {
   }
 
   //PRIMARY METHODS
-  //ADD
+  //ADD NODE
   public void add(String key, String value) {
-
     Node y = nil;
     Node x = root;
     Node toBeAdded = new Node(key, value, BLACK);
@@ -97,8 +104,7 @@ public class RedBlackTree {
     if (root == nil) {
       root = toBeAdded;
       root.parent = nil;
-    }
-    else {
+    } else {
       while (x != nil) {
         y = x;
         if ( compare(toBeAdded.key, x.key) < 0) {
@@ -124,11 +130,10 @@ public class RedBlackTree {
     }
 
   }
-  
+
   //ADD for test purposes
   //automatically creates a value with the appropriate key.
   public void easyAdd(String key) {
-
     Node y = nil;
     Node x = root;
     String val = key + "-val";
@@ -165,18 +170,17 @@ public class RedBlackTree {
 
   }
 
-  //REMOVE
+  //REMOVE NODE
   public void remove(String key) {
-    //this would be the equivalent of the input node.
     Node toBeRemoved = getNodeFromKey(key);
     if(toBeRemoved==null) {
-      System.out.println("whoops!");
+      return;
     }
-    
+
     else {
       Node x;
-      Node y = toBeRemoved; // temporary reference y
-      boolean y_original_color = y.color;
+      Node y = toBeRemoved;
+      boolean yOriginalColor = y.color;
 
       if (toBeRemoved.left == nil) {
         x = toBeRemoved.right;
@@ -186,7 +190,7 @@ public class RedBlackTree {
         transplant(toBeRemoved, toBeRemoved.left);
       } else {
         y = subTreeMinNode(toBeRemoved.right);
-        y_original_color = y.color;
+        yOriginalColor = y.color;
         x = y.right;
         if (y.parent == toBeRemoved)
           x.parent = y;
@@ -200,28 +204,16 @@ public class RedBlackTree {
         y.left.parent = y;
         y.color = toBeRemoved.color;
       }
-      if (y_original_color == BLACK)
+      if (yOriginalColor == BLACK)
         removeFix(x);
     }
   }
 
-  //FIND
+  //FIND NODE
   public String search(String key) {
-    Node current = root;
-    if (current == null) {
-      System.out.println("oops!");
-    } else {
-      while (current != nil) {
-        if (current.key.equals(key)) {
-          return current.value;
-        }
-        else if( compare(current.key, key) < 0) {
-          current = current.right;
-        }
-        else {
-          current = current.left;
-        }
-      }
+    Node searchedNode = getNodeFromKey(key);
+    if (searchedNode != null) {
+      return searchedNode.value;
     }
     return null;
   }
@@ -233,7 +225,10 @@ public class RedBlackTree {
 
   public Node getNodeFromKey(String key) {
     Node current = root;
-    while (current!= null) {
+    if (current == nil) {
+      System.out.println("Nil node!");
+    }
+    while (current!= nil) {
       if(current.key.equals(key)) {
         //gets the node with a specified key.
         return current;
@@ -245,6 +240,7 @@ public class RedBlackTree {
         current = current.left;
       }
     }
+    System.out.println("No node at all.");
     return null;
   }
 
@@ -269,16 +265,12 @@ public class RedBlackTree {
           node.parent.parent.color = RED;
           node = node.parent.parent;
           continue;
-        }
-        if (node == node.parent.right) {
-          //Double rotation needed
+        }else if (node == node.parent.right) {
           node = node.parent;
           rotateLeft(node);
         }
         node.parent.color = BLACK;
         node.parent.parent.color = RED;
-        //if the "else if" code hasn't executed, this
-        //is a case where we only need a single rotation
         rotateRight(node.parent.parent);
       } else {
         uncle = node.parent.parent.left;
@@ -289,15 +281,12 @@ public class RedBlackTree {
           node = node.parent.parent;
           continue;
         }
-        if (node == node.parent.left) {
-          //Double rotation needed
+        else if (node == node.parent.left) {
           node = node.parent;
           rotateRight(node);
         }
         node.parent.color = BLACK;
         node.parent.parent.color = RED;
-        //if the "else if" code hasn't executed, this
-        //is a case where we only need a single rotation
         rotateLeft(node.parent.parent);
       }
     }
@@ -325,13 +314,13 @@ public class RedBlackTree {
           rotateRight(grandpa);
           grandpa = node.parent.right;
         }
-        if(grandpa.right.color == RED){
+//        if(grandpa.right.color == RED){
           grandpa.color = node.parent.color;
           node.parent.color = BLACK;
           grandpa.right.color = BLACK;
           rotateLeft(node.parent);
           node = root;
-        }
+//        }
       }else{
         Node grandma = node.parent.left;
         if(grandma.color == RED){
@@ -351,69 +340,53 @@ public class RedBlackTree {
           rotateLeft(grandma);
           grandma = node.parent.left;
         }
-        if(grandma.left.color == RED){
+//        if(grandma.left.color == RED){
           grandma.color = node.parent.color;
           node.parent.color = BLACK;
           grandma.left.color = BLACK;
           rotateRight(node.parent);
           node = root;
-        }
+//        }
       }
     }
     node.color = BLACK;
 
   }
 
-  public void rotateRight(Node node) {
-    if (node.parent != nil) {
-      if (node == node.parent.left) {
-        node.parent.left = node.left;
-      } else {
-        node.parent.right = node.left;
-      }
-
-      node.left.parent = node.parent;
-      node.parent = node.left;
-      if (node.left.right != nil) {
-        node.left.right.parent = node;
-      }
-      node.left = node.left.right;
-      node.parent.right = node;
-    } else {//Need to rotate root
-      Node left = root.left;
-      root.left = root.left.right;
-      left.right.parent = root;
-      root.parent = left;
-      left.right = root;
-      left.parent = nil;
-      root = left;
+  public void rotateRight(Node pivot) {
+    Node left = pivot.left;
+    pivot.left = left.right;
+    if (left.right != nil) {
+      left.right.parent = pivot;
     }
-
+    left.parent = pivot.parent;
+    if (pivot.parent == nil) {
+      root = left;
+    } else if (pivot == pivot.parent.right) {
+      pivot.parent.right = left;
+    } else {
+      pivot.parent.right = left;
+    }
+    left.right = pivot;
+    pivot.parent = left;
   }
 
-  public void rotateLeft(Node node) {
-    if (node.parent != nil) {
-      if (node == node.parent.left) {
-        node.parent.left = node.right;
-      } else {
-        node.parent.right = node.right;
-      }
-      node.right.parent = node.parent;
-      node.parent = node.right;
-      if (node.right.left != nil) {
-        node.right.left.parent = node;
-      }
-      node.right = node.right.left;
-      node.parent.left = node;
-    } else {//Need to rotate root
-      Node right = root.right;
-      root.right = right.left;
-      right.left.parent = root;
-      root.parent = right;
-      right.left = root;
-      right.parent = nil;
-      root = right;
+  public void rotateLeft(Node pivot) {
+    Node right = pivot.right;
+    pivot.right = right.left;
+    if (right.left != nil) {
+      right.left.parent = pivot;
     }
+    right.parent = pivot.parent;
+    if (pivot.parent == nil) {
+      root = right;
+    } else if (pivot == pivot.parent.left) {
+      pivot.parent.left = right;
+    } else {
+      pivot.parent.right = right;
+    }
+    right.left = pivot;
+    pivot.parent = right;
 
   }
 
