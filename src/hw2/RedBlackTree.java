@@ -20,25 +20,28 @@ public class RedBlackTree {
 //      myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
 //    }
 
-    for(int i = 0; i < 10; i++) {
-      myTree.easyAdd(Integer.toString(i));
-    }
+//    for(int i = 0; i < 10; i++) {
+//      myTree.easyAdd(Integer.toString(i));
+//    }
 
 //    for(int i = 0; i < 9; i++) {
 //      myTree.remove(Integer.toString(i));
 //    }
-
-
-    System.out.println("Searched value: " + myTree.search("2"));
-    myTree.add("2", "updated2-val");
-    System.out.println("Searched value after update: " + myTree.search("2"));
+    myTree.add("K", "11");
+    myTree.add("B", "2");
+    myTree.add("N", "14");
+    myTree.add("A", "1");
+    myTree.add("G", "7");
+    myTree.add("O", "15");
+    myTree.add("E", "5");
+    myTree.add("H", "8");
+    myTree.add("D", "4");
 
     System.out.println(myTree.toString() + "\n");
 
     System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
     System.out.println("Black Count: " + myTree.blacks.size() + ":" + myTree.blacks);
     System.out.println("Nil Count: " + myTree.nils.size());
-    System.out.println(myTree.toString(myTree.getNodeFromKey("a")));
 
   }
 
@@ -72,7 +75,7 @@ public class RedBlackTree {
   public String preOrderTraversal(Node node) {
       if (node == nil) {
         nils.add("NIL");
-        return treeTravesalString+=("(NIL)");
+        return treeTravesalString+=("()");
       } else if (node.color == RED) {
         reds.add(node.key);
         treeTravesalString+=("(*" + node.key + ":" + node.value);
@@ -249,7 +252,6 @@ public class RedBlackTree {
         current = current.left;
       }
     }
-    System.out.println("No node at all.");
     return null;
   }
 
