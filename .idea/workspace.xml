@@ -31,12 +31,12 @@
       <file leaf-file-name="RedBlackTree.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/hw2/RedBlackTree.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="27" lean-forward="true" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+            <state relative-caret-position="285">
+              <caret line="91" column="17" lean-forward="true" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
               <folding>
-                <element signature="e#1544#1552#0" expanded="true" />
-                <element signature="e#1598#1606#0" expanded="true" />
-                <element signature="e#1650#1658#0" expanded="true" />
+                <element signature="e#1884#1892#0" expanded="true" />
+                <element signature="e#1938#1946#0" expanded="true" />
+                <element signature="e#1990#1998#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -511,9 +511,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1544#1552#0" expanded="true" />
-            <element signature="e#1598#1606#0" expanded="true" />
-            <element signature="e#1650#1658#0" expanded="true" />
+            <element signature="e#1884#1892#0" expanded="true" />
+            <element signature="e#1938#1946#0" expanded="true" />
+            <element signature="e#1990#1998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -531,9 +531,9 @@
         <state relative-caret-position="585">
           <caret line="42" column="14" lean-forward="true" selection-start-line="42" selection-start-column="14" selection-end-line="42" selection-end-column="14" />
           <folding>
-            <element signature="e#1544#1552#0" expanded="true" />
-            <element signature="e#1598#1606#0" expanded="true" />
-            <element signature="e#1650#1658#0" expanded="true" />
+            <element signature="e#1884#1892#0" expanded="true" />
+            <element signature="e#1938#1946#0" expanded="true" />
+            <element signature="e#1990#1998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -551,9 +551,9 @@
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
           <folding>
-            <element signature="e#1544#1552#0" expanded="true" />
-            <element signature="e#1598#1606#0" expanded="true" />
-            <element signature="e#1650#1658#0" expanded="true" />
+            <element signature="e#1884#1892#0" expanded="true" />
+            <element signature="e#1938#1946#0" expanded="true" />
+            <element signature="e#1990#1998#0" expanded="true" />
           </folding>
         </state>
       </provider>
@@ -584,12 +584,12 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/hw2/RedBlackTree.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="14" column="27" lean-forward="true" selection-start-line="14" selection-start-column="27" selection-end-line="14" selection-end-column="27" />
+        <state relative-caret-position="285">
+          <caret line="91" column="17" lean-forward="true" selection-start-line="91" selection-start-column="17" selection-end-line="91" selection-end-column="17" />
           <folding>
-            <element signature="e#1544#1552#0" expanded="true" />
-            <element signature="e#1598#1606#0" expanded="true" />
-            <element signature="e#1650#1658#0" expanded="true" />
+            <element signature="e#1884#1892#0" expanded="true" />
+            <element signature="e#1938#1946#0" expanded="true" />
+            <element signature="e#1990#1998#0" expanded="true" />
           </folding>
         </state>
       </provider>

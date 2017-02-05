@@ -36,7 +36,8 @@ public class RedBlackTree {
 //      myTree.remove(Integer.toString(i));
 //    }
 
-    //fossati testing
+    //fossati test cases
+    //first time adding
     myTree.add("K", "11");
     myTree.add("B", "2");
     myTree.add("N", "14");
@@ -48,6 +49,20 @@ public class RedBlackTree {
     myTree.add("D", "4");
 
     System.out.println(myTree.toString() + "\n");
+
+    //this updates all the values.
+    myTree.easyAdd("K");
+    myTree.easyAdd("B");
+    myTree.easyAdd("N");
+    myTree.easyAdd("A");
+    myTree.easyAdd("G");
+    myTree.easyAdd("O");
+    myTree.easyAdd("E");
+    myTree.easyAdd("H");
+    myTree.easyAdd("D");
+
+    System.out.println(myTree.toString() + "\n");
+
 
     System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
     System.out.println("Black Count: " + myTree.blacks.size() + ":" + myTree.blacks);
@@ -62,15 +77,21 @@ public class RedBlackTree {
 
   //toString for the entire tree.
   public String toString() {
-    //empty the traversal string.
+    //empty the testing variables.
     treeTravesalString = "";
+    reds.clear();
+    blacks.clear();
+    nils.clear();
     return preOrderTraversal(root);
   }
 
   //this toString prints the tree starting at any chosen root node
   public String toString(Node rootNode) {
-    //empty the traversal string.
+    //empty the testing variables.
     treeTravesalString = "";
+    reds.clear();
+    blacks.clear();
+    nils.clear();
     if(rootNode == null) return "No subtree at this node";
     else {
       System.out.println("\nSub tree at node: " + rootNode.key);
@@ -167,33 +188,36 @@ public class RedBlackTree {
     String val = key + "-val";
     Node toBeAdded = new Node(key, val, BLACK);
 
-    if (root == nil) {
-      root = toBeAdded;
-      root.parent = nil;
-    }
-    else {
-      while (x != nil) {
-        y = x;
-        if ( compare(toBeAdded.key, x.key) < 0) {
-          x = x.left;
-        } else {
-          x = x.right;
-        }
-      }
-      toBeAdded.parent = y;
-
-      if (y == nil) {
+    if (getNodeFromKey(key) == null) {
+      if (root == nil) {
         root = toBeAdded;
-      }
-      else if (compare(toBeAdded.key, y.key) < 0) {
-        y.left = toBeAdded;
+        root.parent = nil;
       } else {
-        y.right = toBeAdded;
+        while (x != nil) {
+          y = x;
+          if (compare(toBeAdded.key, x.key) < 0) {
+            x = x.left;
+          } else {
+            x = x.right;
+          }
+        }
+        toBeAdded.parent = y;
+
+        if (y == nil) {
+          root = toBeAdded;
+        } else if (compare(toBeAdded.key, y.key) < 0) {
+          y.left = toBeAdded;
+        } else {
+          y.right = toBeAdded;
+        }
+        toBeAdded.left = nil;
+        toBeAdded.right = nil;
+        toBeAdded.color = RED;
+        addFix(toBeAdded);
       }
-      toBeAdded.left = nil;
-      toBeAdded.right = nil;
-      toBeAdded.color = RED;
-      addFix(toBeAdded);
+    } else {
+      System.out.println("Node exists already! Updating value.");
+      getNodeFromKey(key).value = val;
     }
 
   }
