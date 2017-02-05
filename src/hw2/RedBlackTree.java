@@ -5,16 +5,24 @@ import java.util.*;
  * Created by tylerangert on 1/30/17.
  */
 
+//tangert
+//2141078
+//tangert@emory.edu
+//THIS CODE IS MY OWN WORK. IT WAS WRITTEN WITHOUT CONSULTING CODE WRITTEN BY OTHER
+// STUDENTS. I REFERENCED REDDIT/R/COMPUTERSCIENCE, STACKOVERFLOW, AND THE TEXT TO
+// COMPLETE THIS ASSIGNMENT. TYLER ANGERT.
 
 public class RedBlackTree {
 
   public static void main(String[] args){
-    System.out.println("WE WORKIN");
+    System.out.println("WE WORKIN WORLD!!");
 
     RedBlackTree myTree = new RedBlackTree();
 
     String lowAlphabet = "abcdefghijklmnopqrstuvwxyz";
     String highAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+    //custom testing
 
 //    for(int i = 0; i < lowAlphabet.length(); i++) {
 //      myTree.easyAdd(Character.toString(lowAlphabet.charAt(i)));
@@ -23,10 +31,12 @@ public class RedBlackTree {
 //    for(int i = 0; i < 10; i++) {
 //      myTree.easyAdd(Integer.toString(i));
 //    }
-
-//    for(int i = 0; i < 9; i++) {
+//
+//    for(int i = 0; i < 3; i++) {
 //      myTree.remove(Integer.toString(i));
 //    }
+
+    //fossati testing
     myTree.add("K", "11");
     myTree.add("B", "2");
     myTree.add("N", "14");
@@ -42,7 +52,6 @@ public class RedBlackTree {
     System.out.println("Red Count: " + myTree.reds.size() + ":" + myTree.reds);
     System.out.println("Black Count: " + myTree.blacks.size() + ":" + myTree.blacks);
     System.out.println("Nil Count: " + myTree.nils.size());
-
   }
 
   //testing variables
@@ -53,12 +62,14 @@ public class RedBlackTree {
 
   //toString for the entire tree.
   public String toString() {
+    //empty the traversal string.
     treeTravesalString = "";
     return preOrderTraversal(root);
   }
 
   //this toString prints the tree starting at any chosen root node
   public String toString(Node rootNode) {
+    //empty the traversal string.
     treeTravesalString = "";
     if(rootNode == null) return "No subtree at this node";
     else {
@@ -67,6 +78,7 @@ public class RedBlackTree {
     }
   }
 
+  //Pre order traversal algorithm that's called in toString.
   /*
   (key:value (left-subtree) (right-subtree))
   If the key:value pair is contained in a red node, prepend a star to it: *key:value
@@ -108,6 +120,9 @@ public class RedBlackTree {
     Node x = root;
     Node toBeAdded = new Node(key, value, BLACK);
 
+    //checks if the node exists already
+    //if not (aka if its null), add it.
+    //if it exists, update the value
     if (getNodeFromKey(key) == null) {
       System.out.println("Unique node!");
       if (root == nil) {
@@ -148,6 +163,7 @@ public class RedBlackTree {
   public void easyAdd(String key) {
     Node y = nil;
     Node x = root;
+    //key specific value
     String val = key + "-val";
     Node toBeAdded = new Node(key, val, BLACK);
 
@@ -186,6 +202,7 @@ public class RedBlackTree {
   public void remove(String key) {
     Node toBeRemoved = getNodeFromKey(key);
     if(toBeRemoved==null) {
+      System.out.println("I can't remove node " + "\"" + key + "\"" + " because it doesn't exist, idiot.");
       return;
     }
 
@@ -318,21 +335,18 @@ public class RedBlackTree {
           grandpa.color = RED;
           node = node.parent;
           continue;
-        }
-        else if(grandpa.right.color == BLACK){
+        } else if(grandpa.right.color == BLACK){
           grandpa.left.color = BLACK;
           grandpa.color = RED;
           rotateRight(grandpa);
           grandpa = node.parent.right;
         }
-//        if(grandpa.right.color == RED){
           grandpa.color = node.parent.color;
           node.parent.color = BLACK;
           grandpa.right.color = BLACK;
           rotateLeft(node.parent);
           node = root;
-//        }
-      }else{
+      } else{
         Node grandma = node.parent.left;
         if(grandma.color == RED){
           grandma.color = BLACK;
@@ -351,13 +365,11 @@ public class RedBlackTree {
           rotateLeft(grandma);
           grandma = node.parent.left;
         }
-//        if(grandma.left.color == RED){
           grandma.color = node.parent.color;
           node.parent.color = BLACK;
           grandma.left.color = BLACK;
           rotateRight(node.parent);
           node = root;
-//        }
       }
     }
     node.color = BLACK;
@@ -432,7 +444,7 @@ public class RedBlackTree {
       this.color = color;
     }
 
-    //Constructor 2
+    //Constructor 2 for nil nodes
     Node(){}
   }
 
