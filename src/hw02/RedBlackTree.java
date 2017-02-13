@@ -1,4 +1,4 @@
-package hw2;
+package hw02;
 import java.util.*;
 
 /**
