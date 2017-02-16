@@ -1,4 +1,5 @@
 package hw03;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 /**
@@ -87,74 +88,89 @@ public class Heaps {
     selectionSort(selectionSortArr, selectionSortArr.length, false);
     System.out.println("Selection sorted array (ascending): " + Arrays.toString(selectionSortArr));
 
-    //SORT COMPARISONS
-    //random array
-    //5 values of N to measure Big O
-    //256
-    //512
-    //1024
-    //2048
-    //4096
+    System.out.println("To tree string: ");
+    System.out.println(toTreeString(selectionSortArr, selectionSortArr.length));
 
+    //Sort comparisons
+    measureAllAlgs(128, 5);
+  }
+
+  public static void measureAllAlgs(int baseValue, int numberOfRepeats) {
     System.out.println("\n***SORT COMPARISONS***");
-    System.out.println("\n**HEAP SORT**");
-    System.out.println("Elements: 256. Time: " + measureHeapSort(256) + " s");
-    System.out.println("Elements: 512. Time: " + measureHeapSort(512) + " s");
-    System.out.println("Elements: 1024. Time: " + measureHeapSort(1024) + " s");
-    System.out.println("Elements: 2048. Time: " + measureHeapSort(2048) + " s");
-    System.out.println("Elements: 4096. Time: " + measureHeapSort(4096) + " s");
+    for(int repeats = 0; repeats < numberOfRepeats; repeats++) {
+      System.out.println("COMPARISON RUN: " + repeats);
+      int i;
+      int original = baseValue;
+      System.out.println("\n**HEAP SORT**");
+      for (i = 0; i < 5; i++) {
+        System.out.println("Elements: " + (baseValue) + " Time: " + measureHeapSort(baseValue) + " s");
+        baseValue *= 2;
+      }
+      baseValue = original;
 
-    System.out.println("\n**MERGE SORT 1 (TOP-DOWN)**");
-    System.out.println("Elements: 256. Time: " + measureMergeSort1(256) + " s");
-    System.out.println("Elements: 512. Time: " + measureMergeSort1(512) + " s");
-    System.out.println("Elements: 1024. Time: " + measureMergeSort1(1024) + " s");
-    System.out.println("Elements: 2048. Time: " + measureMergeSort1(2048) + " s");
-    System.out.println("Elements: 4096. Time: " + measureMergeSort1(4096) + " s");
+      System.out.println("\n**MERGE SORT 1 (TOP-DOWN)**");
+      for (i = 0; i < 5; i++) {
+        System.out.println("Elements: " + (baseValue) + " Time: " + measureMergeSort1(baseValue) + " s");
+        baseValue *= 2;
+      }
+      baseValue = original;
 
-    System.out.println("\n**MERGE SORT 2 (BOTTOM-UP)**");
-    System.out.println("Elements: 256. Time: " + measureMergeSort2(256) + " s");
-    System.out.println("Elements: 512. Time: " + measureMergeSort2(512) + " s");
-    System.out.println("Elements: 1024. Time: " + measureMergeSort2(1024) + " s");
-    System.out.println("Elements: 2048. Time: " + measureMergeSort2(2048) + " s");
-    System.out.println("Elements: 4096. Time: " + measureMergeSort2(4096) + " s");
+      System.out.println("\n**MERGE SORT 2 (BOTTOM-UP)**");
+      for (i = 0; i < 5; i++) {
+        System.out.println("Elements: " + (baseValue) + " Time: " + measureMergeSort2(baseValue) + " s");
+        baseValue *= 2;
+      }
+      baseValue = original;
 
-    System.out.println("\n**SELECTION SORT**");
-    System.out.println("Elements: 256. Time: " + measureSelectionSort(256) + " s");
-    System.out.println("Elements: 512. Time: " + measureSelectionSort(512) + " s");
-    System.out.println("Elements: 1024. Time: " + measureSelectionSort(1024) + " s");
-    System.out.println("Elements: 2048. Time: " + measureSelectionSort(2048) + " s");
-    System.out.println("Elements: 4096. Time: " + measureSelectionSort(4096) + " s");
+      System.out.println("\n**SELECTION SORT**");
+      for (i = 0; i < 5; i++) {
+        System.out.println("Elements: " + (baseValue) + " Time: " + measureSelectionSort(baseValue) + " s");
+        baseValue *= 2;
+      }
+      baseValue = original;
+    }
   }
 
   public static int dataCount = 0;
 
   //Heap methods
-  public static String heapTraversalString = "";
   public static String toTreeString(String[] x, int n) {
-        int left = getLeft(n);
-        int right = getRight(n);
-        heapTraversalString = "(" + x[0];
-
-        toTreeString(x, left);
-        toTreeString(x, right);
-        return heapTraversalString+=")";
-
+    if (n <= 1) {
+      return x[0];
+    }
+    return recursiveTreePrint(x, n,0);
   }
 
-  public static void buildMaxHeap(String[] x, int n) {
-    for (int i = n/2; i >= 0; i--) {
-      maxHeapify(x, n, i);
+  public static String recursiveTreePrint(String[] rootTree, int numElements, int startingPos) {
+    if(startingPos >= numElements) {
+      return "";
     }
+
+    int left = startingPos*2+1;
+    int right = startingPos*2+2;
+
+    System.out.println(rootTree[startingPos]);
+
+    String leftSubTree = recursiveTreePrint(rootTree, numElements, left);
+    String rightSubTree = recursiveTreePrint(rootTree, numElements, right);
+    return "("+ rootTree[startingPos] + leftSubTree + rightSubTree + ")";
   }
 
   public static int countElements(String[] data) {
-    dataCount = 0;
+    int dataCount = 0;
     for(String element: data) {
       if (element != null) {
         dataCount++;
       }
     }
     return dataCount;
+  }
+
+
+  public static void buildMaxHeap(String[] x, int n) {
+    for (int i = n/2; i >= 0; i--) {
+      maxHeapify(x, n, i);
+    }
   }
 
   public static void maxHeapify(String[] x, int n, int i) {
@@ -243,7 +259,7 @@ public class Heaps {
   }
 
   public static int getLeft(int root) {
-    return 2*root;
+    return 2*root+0;
   }
 
   public static int getRight(int root) {
@@ -251,7 +267,7 @@ public class Heaps {
   }
 
   public static int getParent(int root) {
-    return root/2;
+    return (root)/2;
   }
 
   public static boolean isMinHeap(String[] heap, int dataCount) {
@@ -269,19 +285,19 @@ public class Heaps {
   public static void heapSort(String[] x, int n, boolean descending) {
     int size = n;
     if (descending) {
-      buildMaxHeap(x, size);
-//      for (int i = n-1; i >= 2; i--) {
-//        size--;
-//        swap(x, 0, i);
-//        maxHeapify(x, size, 1);
-//      }
+      buildMinHeap(x,n);
+      for(int i = n-1; i >= 1; i--) {
+        swap(x,0,i);
+        size--;
+        minHeapify(x,size,0);
+      }
     } else if (!descending) {
-      buildMinHeap(x, size);
-//      for (int i = n-1; i >= 2; i--) {
-//        size--;
-//        swap(x, 0, i);
-//        minHeapify(x, size, 1);
-//      }
+      buildMaxHeap(x,n);
+      for(int i = n-1; i >= 1; i--) {
+        swap(x,0,i);
+        size--;
+        maxHeapify(x,size,0);
+      }
     }
   }
 
@@ -300,13 +316,9 @@ public class Heaps {
 
   public static void sort1(String[] toBeSorted, String[] helper, int low, int high, boolean descending) {
     if (low < high) {
-      // Get the index of the element which is in the middle
       int middle = low + (high - low) / 2;
-      // Sort the left side of the array
       sort1(toBeSorted, helper, low, middle, descending);
-      // Sort the right side of the array
       sort1(toBeSorted, helper,middle + 1, high, descending);
-      // Combine them both
       merge1(toBeSorted, helper, low, middle, high, descending);
     }
   }
