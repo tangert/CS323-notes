@@ -32,26 +32,21 @@ public class Heaps {
     String alphabet = "abcdefghijklmnop";
     for(int i = 0; i < 6; i++) {
       addingHeap[i] = Character.toString(alphabet.charAt(i));
-      dataCount++;
     }
+
+    buildMaxHeap(addingHeap, countElements(addingHeap));
 
     /****ADDING TO HEAP****/
     System.out.println("\n***ADDING TO HEAP***");
     System.out.println("Original heap for adding: " + Arrays.toString(addingHeap));
-    addToHeap("h",addingHeap,dataCount);
-    addToHeap("i",addingHeap,dataCount);
-    addToHeap("j",addingHeap,dataCount);
-    addToHeap("k",addingHeap,dataCount);
+    addToHeap("h",addingHeap,countElements(addingHeap));
+    addToHeap("i",addingHeap,countElements(addingHeap));
+    addToHeap("j",addingHeap,countElements(addingHeap));
+    addToHeap("k",addingHeap,countElements(addingHeap));
     //this will lead to overflow.
-    addToHeap("l",addingHeap,dataCount);
+    addToHeap("l",addingHeap,countElements(addingHeap));
     System.out.println(Arrays.toString(addingHeap));
 
-
-    /*
-    IN ORDER TO ENSURE THERE ARE NO NULL POINTER OR ARRAY OUT OF BOUNDS EXCEPTIONS,
-    YOU MUST CLEAR THE VARIABLE DATACOUNT WHEN CREATING A NEW ARRAY TO PERFORM ADDING OPERATIONS ON
-    SINCE THIS IS NOT OBJECT ORIENTED. WOULD BE A DIFFERENT STORY IF WE CREATED HEAPS WITH CONSTRUCTORS.
-    */
 
     /****SORTING****/
     //HEAP SORT
@@ -131,8 +126,6 @@ public class Heaps {
     }
   }
 
-  public static int dataCount = 0;
-
   //Heap methods
   public static String toTreeString(String[] x, int n) {
     if (n <= 1) {
@@ -146,10 +139,9 @@ public class Heaps {
       return "";
     }
 
+    //adjusting for
     int left = startingPos*2+1;
     int right = startingPos*2+2;
-
-    System.out.println(rootTree[startingPos]);
 
     String leftSubTree = recursiveTreePrint(rootTree, numElements, left);
     String rightSubTree = recursiveTreePrint(rootTree, numElements, right);
@@ -223,7 +215,7 @@ public class Heaps {
 
   //Add to heap
   public static boolean addToHeap(String s, String[] x, int n) {
-    System.out.println("\nDatacount before adding: " + dataCount);
+    System.out.println("\nDatacount before adding: " + n);
     if (x.length == n) {
       System.out.println("Whoops. Not enough room.");
       return false;
@@ -241,9 +233,7 @@ public class Heaps {
       buildMinHeap(x, n);
       x[n] = s;
     }
-      dataCount++;
       System.out.println(Arrays.toString(x));
-      System.out.println("Datacount after adding: " + dataCount);
       return true;
     }
 

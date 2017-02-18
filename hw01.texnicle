@@ -5,7 +5,7 @@
     <databaseInfo>
         <version>134481920</version>
         <UUID>84C22176-74A7-43CE-9623-793BBD340D57</UUID>
-        <nextObjectID>105</nextObjectID>
+        <nextObjectID>107</nextObjectID>
         <metadata>
             <plist version="1.0">
                 <dict>
@@ -78,14 +78,14 @@
         <attribute name="type" type="string">PDFLaTeX</attribute>
         <attribute name="name" type="string">hw01</attribute>
         <attribute name="folder" type="string">/Users/tylerangert/Desktop/Classes/CS323/hw01</attribute>
-        <relationship name="mainfile" type="1/1" destination="FILE" idrefs="z105"></relationship>
-        <relationship name="selected" type="1/1" destination="FILE" idrefs="z105"></relationship>
+        <relationship name="mainfile" type="1/1" destination="FILE" idrefs="z107"></relationship>
+        <relationship name="selected" type="1/1" destination="FILE" idrefs="z107"></relationship>
         <relationship name="settings" type="1/1" destination="SETTINGS" idrefs="z102"></relationship>
         <relationship name="uisettings" type="1/1" destination="UISETTINGS" idrefs="z104"></relationship>
-        <relationship name="items" type="0/0" destination="PROJECTITEM" idrefs="z105"></relationship>
+        <relationship name="items" type="0/0" destination="PROJECTITEM" idrefs="z105 z107"></relationship>
     </object>
     <object type="UISETTINGS" id="z104">
-        <attribute name="pdfviewscrollrect" type="string">{{0, 2092.208877285042}, {620, 1123.4464751954597}}</attribute>
+        <attribute name="pdfviewscrollrect" type="string">{{0, 0}, {620, 811}}</attribute>
         <attribute name="showpdfthumbnails" type="bool">0</attribute>
         <attribute name="selectedcontrolstab" type="int16">0</attribute>
         <attribute name="maxoutlinedepth" type="int16">7</attribute>
@@ -96,17 +96,35 @@
         <relationship name="project" type="1/1" destination="PROJECT" idrefs="z103"></relationship>
     </object>
     <object type="TEXFILE" id="z105">
-        <attribute name="visiblerect" type="string">{{0, 2007.5}, {542, 603.5}}</attribute>
-        <attribute name="cursor" type="string">{4693, 0}</attribute>
-        <attribute name="wasopen" type="bool">0</attribute>
-        <attribute name="lasteditdate" type="date">506898689.06796199083328247070</attribute>
+        <attribute name="visiblerect" type="string">{{0, 815}, {548, 603.5}}</attribute>
+        <attribute name="cursor" type="string">{1144, 0}</attribute>
+        <attribute name="wasopen" type="bool">-1</attribute>
+        <attribute name="lasteditdate" type="date">509077372.12813401222229003906</attribute>
         <attribute name="istext" type="bool">1</attribute>
-        <attribute name="fileloaddate" type="date">506898705.95097297430038452148</attribute>
+        <attribute name="fileloaddate" type="date">509077371.94289499521255493164</attribute>
         <attribute name="extension" type="string">tex</attribute>
         <attribute name="sortindex" type="int32">0</attribute>
         <attribute name="name" type="string">hw01.tex</attribute>
         <attribute name="isexpanded" type="bool">0</attribute>
         <attribute name="filepath" type="string">./hw01.tex</attribute>
+        <relationship name="parent" type="1/1" destination="PROJECTITEM"></relationship>
+        <relationship name="project" type="1/1" destination="PROJECT" idrefs="z103"></relationship>
+        <relationship name="mainfileofproject" type="1/1" destination="PROJECT"></relationship>
+        <relationship name="children" type="0/0" destination="PROJECTITEM"></relationship>
+        <relationship name="bookmarks" type="0/0" destination="BOOKMARK"></relationship>
+    </object>
+    <object type="TEXFILE" id="z107">
+        <attribute name="wasopen" type="bool">0</attribute>
+        <attribute name="visiblerect" type="string">{{0, 545}, {548, 603.5}}</attribute>
+        <attribute name="lasteditdate" type="date">509078212.97472602128982543945</attribute>
+        <attribute name="istext" type="bool">1</attribute>
+        <attribute name="fileloaddate" type="date">509078153.99091100692749023438</attribute>
+        <attribute name="extension" type="string">tex</attribute>
+        <attribute name="cursor" type="string">{1210, 0}</attribute>
+        <attribute name="sortindex" type="int32">0</attribute>
+        <attribute name="name" type="string">hw03.tex</attribute>
+        <attribute name="isexpanded" type="bool">0</attribute>
+        <attribute name="filepath" type="string">./hw03.tex</attribute>
         <relationship name="parent" type="1/1" destination="PROJECTITEM"></relationship>
         <relationship name="project" type="1/1" destination="PROJECT" idrefs="z103"></relationship>
         <relationship name="mainfileofproject" type="1/1" destination="PROJECT" idrefs="z103"></relationship>
