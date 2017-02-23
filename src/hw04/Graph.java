@@ -9,6 +9,8 @@ public class Graph {
 
     public static void main(String[] args) {
         System.out.println("Hello graphs!");
+
+        //Test graph 1
         Graph graph = new Graph();
         graph.addVertex("a");
         graph.addVertex("b");
@@ -17,15 +19,26 @@ public class Graph {
         graph.addVertex("e");
         graph.addVertex("f");
         graph.addVertex("g");
+        graph.addVertex("h");
+        graph.addVertex("i");
+        graph.addVertex("j");
+        graph.addVertex("k");
 
 
-        graph.addEdge("a", "b", 5.0);
-        graph.addEdge("a", "c", 6.0);
-        graph.addEdge("b", "d", 7.0);
-        graph.addEdge("c", "d", 8.0);
-        graph.addEdge("c", "e", 9.0);
-        graph.addEdge("c", "f", 10.0);
-        graph.addEdge("e", "g", 11.0);
+        graph.addEdge("a", "b", 1.0);
+        graph.addEdge("a", "c", 2.0);
+        graph.addEdge("b", "d", 3.0);
+        graph.addEdge("c", "d", 4.0);
+        graph.addEdge("c", "e", 5.0);
+        graph.addEdge("c", "f", 6.0);
+        graph.addEdge("e", "g", 7.0);
+        graph.addEdge("e", "h", 8.0);
+        graph.addEdge("g", "h", 9.0);
+        graph.addEdge("g", "j", 10.0);
+        graph.addEdge("h", "i", 11.0);
+        graph.addEdge("i", "j", 12.0);
+        graph.addEdge("i", "k", 13.0);
+
 
         System.out.println("\n***BREADTH FIRST SEARCH***");
         graph.breadthFirstSearch("a");
@@ -36,10 +49,82 @@ public class Graph {
         System.out.println(graph.topologicalSort());
 
         System.out.println("\n***PATH PRINT***");
+        System.out.println("Prints the vertices of the path up until the final vertex");
         System.out.println(graph.path("a", "g"));
+        System.out.println(graph.path("a", "f"));
+        System.out.println(graph.path("a", "e"));
+        System.out.println(graph.path("a", "j"));
+        System.out.println(graph.path("a", "k"));
+
+        System.out.println(graph.path("b", "d"));
+        System.out.println(graph.path("c", "g"));
+        System.out.println(graph.path("c", "j"));
+        System.out.println(graph.path("e", "k"));
+
+
+
+        //this doesn't exist
+        System.out.println("\nTHESE PATHS DON'T EXIST");
+        System.out.println(graph.path("b", "e"));
+        System.out.println(graph.path("b", "f"));
+        System.out.println(graph.path("f", "g"));
+        System.out.println(graph.path("f", "j"));
+
 
         System.out.println("\n***PATH WEIGHT***");
         System.out.println(graph.pathWeight("a", "g"));
+        System.out.println(graph.pathWeight("a", "f"));
+        System.out.println(graph.pathWeight("a", "e"));
+        System.out.println(graph.pathWeight("a", "j"));
+        System.out.println(graph.pathWeight("a", "k"));
+        System.out.println(graph.pathWeight("b", "d"));
+        System.out.println(graph.pathWeight("c", "g"));
+        System.out.println(graph.pathWeight("c", "j"));
+        System.out.println(graph.pathWeight("e", "k"));
+
+
+        //FIGURE 22.6 GRAPH
+        Graph textbookGraph = new Graph();
+        textbookGraph.addVertex("q");
+        textbookGraph.addVertex("r");
+        textbookGraph.addVertex("s");
+        textbookGraph.addVertex("t");
+        textbookGraph.addVertex("u");
+        textbookGraph.addVertex("v");
+        textbookGraph.addVertex("w");
+        textbookGraph.addVertex("x");
+        textbookGraph.addVertex("y");
+        textbookGraph.addVertex("z");
+
+        textbookGraph.addEdge("q","s",5);
+        textbookGraph.addEdge("q","w",5);
+        textbookGraph.addEdge("q","t",5);
+
+        textbookGraph.addEdge("r","u",5);
+        textbookGraph.addEdge("r","y",5);
+
+        textbookGraph.addEdge("s","v",5);
+
+        textbookGraph.addEdge("t","y",5);
+        textbookGraph.addEdge("t","x",5);
+
+        textbookGraph.addEdge("u","y",5);
+
+        textbookGraph.addEdge("v","w",5);
+
+        textbookGraph.addEdge("w","s",5);
+
+        textbookGraph.addEdge("x","z",5);
+
+        textbookGraph.addEdge("y","q",5);
+
+        textbookGraph.addEdge("z","x",5);
+
+//        System.out.println("\n***BREADTH FIRST SEARCH***");
+//        textbookGraph.breadthFirstSearch("t");
+//        System.out.println("\n***DEPTH FIRST SEARCH***");
+//        textbookGraph.depthFirstSearch("t");
+//        System.out.println("\n***ENDED DFS***");
 
     }
 
@@ -78,7 +163,7 @@ public class Graph {
         adjacent.put(key, new ArrayList<Edge>());
     }
 
-    //
+    //adds a new edge given a source and target key for vertices, along with a weight for the edge
     public void addEdge(String source, String target, double weight) {
         if (!vertices.containsKey(source)) {
             addVertex(source);
@@ -91,6 +176,7 @@ public class Graph {
         edges.add(e);
     }
 
+    //converts the current graph to a string
     public String toString() {
         StringBuilder s = new StringBuilder();
         StringBuilder dot = new StringBuilder();
@@ -156,6 +242,12 @@ public class Graph {
         //clearing search steps
         searchSteps.clear();
 
+        //clearing vertex distances
+        for (String label : vertices.keySet()) {
+            Vertex u = vertices.get(label);
+            u.distance = 0;
+        }
+
         //1. INITIAL PRINTING OF GRAPH
         recordSnapshot();
 
@@ -191,8 +283,9 @@ public class Graph {
                     if (v.color == WHITE) {
                         //printing steps
                         v.color = GRAY;
-                        v.distance = e.weight;
                         v.parent = u;
+                        v.distance = v.parent.distance + e.weight;
+                        System.out.println(v.label + " distance: " + v.distance);
                         //4. TURN VERTEX GRAY
                         recordSnapshot();
                         queue.add(v);
@@ -213,29 +306,34 @@ public class Graph {
 
 //    The distance attribute of each vertex should be updated using the weight of the corresponding edges
 // (i.e., the total distance of a path is the sum of the weights of the composing edges).
-
     public void depthFirstSearch(String startVertex) {
+        //remove the vertex weights before each search
+        for (String label : vertices.keySet()) {
+            Vertex u = vertices.get(label);
+            u.distance = 0;
+        }
+
         if (vertices.get(startVertex) == null) {
             System.out.println("This vertex doesn't exist");
-        }
+        } else {
 
-        Vertex start = vertices.get(startVertex);
-        for (String label : vertices.keySet()) {
-            Vertex u = vertices.get(label);
-            u.color = WHITE;
-            u.parent = null;
-        }
-
-        searchSteps.clear();
-        for (String label : vertices.keySet()) {
-            Vertex u = vertices.get(label);
-            if (u.color == WHITE) {
-                DFSVisit(u);
+            Vertex start = vertices.get(startVertex);
+            for (String label : vertices.keySet()) {
+                Vertex u = vertices.get(label);
+                u.color = WHITE;
+                u.parent = null;
             }
+
+            searchSteps.clear();
+            for (String label : vertices.keySet()) {
+                Vertex u = vertices.get(label);
+                if (u.color == WHITE) {
+                    DFSVisit(start);
+                }
+            }
+
+            System.out.println(searchSteps.size());
         }
-
-        System.out.println(searchSteps.size());
-
     }
 
     public void DFSVisit(Vertex u) {
@@ -247,15 +345,16 @@ public class Graph {
         for (Edge e : adjacent.get(u.label)) {
             Vertex v = e.target;
             if (v.color == WHITE) {
-                v.distance = e.weight;
                 v.parent = u;
+                v.distance = v.parent.distance + e.weight;
+                System.out.println(v.label + " distance: " + v.distance);
                 DFSVisit(v);
             }
         }
 
-        recordSnapshot();
         u.color = BLACK;
         u.finishStep = searchSteps.size();
+        recordSnapshot();
         System.out.println("Vertex: " + u.label + ". Discover: " + u.discoverStep + "; Finish: " + u.finishStep);
     }
 
@@ -266,13 +365,21 @@ public class Graph {
 
     public List<String> path(String startVertex, String endVertex) {
         //declares an empty linked list to pass into the path helper
-        LinkedList<String> path = new LinkedList<String>();
-
-        //recursively creates a path of nodes except for the last one
-        LinkedList<String> basePath = pathHelper(path, startVertex, endVertex);
-        //adds the end vertex
-        basePath.add(endVertex);
-        return basePath;
+        if (vertices.get(startVertex) == null || vertices.get(endVertex) == null) {
+            System.out.println("This vertex doesn't exist");
+            return null;
+        } else {
+            System.out.print("Path from " + startVertex + " to " + endVertex + ": ");
+            LinkedList<String> path = new LinkedList<String>();
+            //recursively creates a path of nodes except for the last one
+            LinkedList<String> basePath = pathHelper(path, startVertex, endVertex);
+            if (basePath == null) {
+                System.out.println("Base path is null");
+                return null;
+            } else {
+                return basePath;
+            }
+        }
     }
 
     private LinkedList<String> pathHelper(LinkedList<String> path, String start, String end) {
@@ -281,9 +388,10 @@ public class Graph {
 
         if (s.equals(e)) {
             return path;
-        } else if (e.parent == NIL) {
+        } else if (e.parent == null) {
             System.out.println("No path");
-            return path;
+            path.clear();
+            return null;
         } else {
             path.addFirst(e.parent.label);
             pathHelper(path, start, e.parent.label);
@@ -295,6 +403,7 @@ public class Graph {
     public double pathWeight(String startVertex, String endVertex) {
         // You implement this method
         double totalWeight = 0;
+        System.out.println("\nPath weight from " + startVertex + " to " + endVertex);
         return pathWeightHelper(totalWeight, startVertex, endVertex);
     }
 
@@ -309,17 +418,17 @@ public class Graph {
 
         if (s.equals(e)) {
             return totalWeight;
-        } else if (e.parent == NIL) {
+        } else if (e.parent == null) {
+            System.out.println(e.label + "'s parent is null");
             return Double.POSITIVE_INFINITY;
         } else {
 
-            System.out.println("\nStart: " + s.label);
-            System.out.println("End: " + e.label);
 
             //get relevant edges
             for (Edge edge : adjacent.get(e.parent.label)) {
+                //if the edge target equals the end node as inputted
                 if (edge.target.equals(e)) {
-                    System.out.println("Found the right edge: " + edge.toString());
+                    System.out.println("Edge " + edge.toString());
                     totalWeight += edge.weight;
                 }
             }
@@ -327,6 +436,9 @@ public class Graph {
         }
     }
 
+    //TOPOLOGICAL SORT
+    //THIS SORTING METHOD PRODUCES A LIST OF VERTECES S.T. FOR EVERY EDGE
+    //CONNECTING U,V, U COMES BEFORE V IN THE SORTED LIST.
     public List<String> topologicalSort() {
         //get first value from the vertices
         Object firstKey = vertices.keySet().toArray()[0];
@@ -334,6 +446,8 @@ public class Graph {
         return dfsTopSort((String) firstKey);
     }
 
+    //HELPER METHODS FOR TOPOLOGICAL SORT
+    //THIS IS A MODIFIED DFS THAT RECORDS EVERY NODE INTO A LINKEDLIST
     public List<String> dfsTopSort(String startVertex) {
         if (vertices.get(startVertex) == null) {
             System.out.println("This vertex doesn't exist");
@@ -367,7 +481,6 @@ public class Graph {
         for (Edge e : adjacent.get(u.label)) {
             Vertex v = e.target;
             if (v.color == WHITE) {
-                v.distance = e.weight;
                 v.parent = u;
                 DFSVisitTopSort(v, list);
             }
@@ -389,16 +502,20 @@ class Vertex {
     public static final int GRAY = 1;
     public static final int BLACK = 2;
 
+    //data stored within vertex
     String label;
 
+    //the color of the node denoting its discovery status
     int color;
 
+    //the weight of the given edge a vertex is connected to
     double distance;
 
     Vertex parent;
 
+    //discoverStep: the time stamp/point in graph traversal when a node is discovered (gray)
+    //finishStep: when a node is traversed (black)
     int discoverStep;
-
     int finishStep;
 
     //empty constructor for NIL vertex
@@ -420,8 +537,13 @@ class Vertex {
 }
 
 class Edge {
+    //vertex that the edge emerges from
     Vertex source;
+
+    //vertex that the edge connects to
     Vertex target;
+
+    //weight of the given edge
     double weight;
 
     //empty constructor
