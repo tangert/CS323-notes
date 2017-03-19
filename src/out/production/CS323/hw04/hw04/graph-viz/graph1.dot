@@ -1,0 +1,8 @@
+digraph graph1 {
+	":-)" -> ";-)" [label="sup"];
+	":-)" -> ">:-)" [label="hey"];
+	";-)" -> ":-O" [label="wow",color="blue"];
+
+	":-(" -> ":-(" [color="red"];
+	":-("[color="red"];
+} 

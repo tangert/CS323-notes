@@ -1,0 +1,18 @@
+digraph graph2 {
+	CS170[fillcolor="yellow", style="filled"];
+	CS171[fillcolor="yellow", style="filled"];
+	CS224[fillcolor="orange", style="filled"];
+	CS323[fillcolor="red", style="filled"];
+	CS370[fillcolor="red", style="filled"];
+	HLTH100[fillcolor="yellow", style="filled"];
+	Graduation[fillcolor="green", style="filled"];
+
+	CS170 -> CS171;
+	CS171 -> CS323;
+	CS224 -> CS323;
+	CS224 -> CS370;
+	CS323 -> CS370;
+	CS323 -> Graduation;
+	CS370 -> Graduation;
+	HLTH100 -> Graduation;
+}

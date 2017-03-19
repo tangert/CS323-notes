@@ -1,0 +1,31 @@
+digraph G {
+    ASQ[style="bold"];
+    ATL[style="bold"];
+    JFK[style="bold"];
+    SEA[style="bold"];
+    SFO[style="bold"];
+    ASQ -> SEA;
+    ASQ -> JFK;
+    ASQ -> ATL;
+    ASQ -> SFO;
+
+    ATL -> SFO;
+    ATL -> ASQ;
+    ATL -> SEA;
+    ATL -> JFK;
+
+    JFK -> ATL;
+    JFK -> SFO;
+    JFK -> ASQ;
+    JFK -> SEA;
+
+    SEA -> JFK;
+    SEA -> ATL;
+    SEA -> SFO;
+    SEA -> ASQ;
+    
+    SFO -> ASQ;
+    SFO -> SEA;
+    SFO -> JFK;
+    SFO -> ATL;
+}

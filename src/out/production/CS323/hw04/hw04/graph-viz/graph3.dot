@@ -1,0 +1,12 @@
+digraph graph3 {
+	rankdir=LR 
+	"Healthy \n Life" [shape="star", fillcolor="yellow" style="filled"];
+	Eat [shape="hexagon", fillcolor="green" style="filled"];
+	Lift [shape="triangle", fillcolor="red" style="filled"];
+	Sleep [shape="rectangle", fillcolor="blue" style="filled"];
+
+	"Healthy \n Life" -> Eat
+	Eat -> Lift
+	Lift -> Sleep
+	Sleep -> Eat
+}
