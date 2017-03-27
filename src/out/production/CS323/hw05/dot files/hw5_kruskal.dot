@@ -1,0 +1,23 @@
+digraph G {
+    A[style="dotted"];
+    B[style="dotted"];
+    C[style="dotted"];
+    D[style="dotted"];
+    E[style="dotted"];
+    F[style="dotted"];
+    G[style="dotted"];
+    H[style="dotted"];
+    I[style="dotted"];
+    J[style="dotted"];
+    A -> B;
+    A -> C;
+    B -> D;
+    B -> A;
+    C -> A;
+    D -> E;
+    E -> G;
+    E -> F;
+    G -> H;
+    G -> I;
+    I -> J;
+}
