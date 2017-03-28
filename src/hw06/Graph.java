@@ -10,6 +10,8 @@ public class Graph {
 
     public static void main(String[] args) {
         System.out.println("Hello HW6");
+
+        //Test graph
         Graph g = new Graph();
         g.addEdge("A","B",1);
         g.addEdge("A","C",2);
@@ -24,14 +26,96 @@ public class Graph {
         g.addEdge("C","G",4);
         g.addEdge("C","H",3);
 
-//        System.out.println("Bellman ford: " + g.bellmanFord("A") + "\n");
-//        System.out.println("Dijkstra: " + g.dijkstra("A"));
+        System.out.println("\n**********************");
+        System.out.println("***FIRST TEST GRAPH***");
+        System.out.println("**********************");
 
-        System.out.println(g.toString());
+        System.out.println("\n***BELLMAN FORD***");
+        System.out.println("Bellman ford: " + g.bellmanFord("A") + "\n");
+        System.out.println("Testing for Bellman ford: " + g.path("A","A") + " ::: Weight: " + g.pathWeight("A","A"));
+        System.out.println("Testing for bellman ford: " + g.path("A","B") + " ::: Weight: " + g.pathWeight("A","B"));
+        System.out.println("Testing for bellman ford: " + g.path("A","C") + " ::: Weight: " + g.pathWeight("A","C"));
+        System.out.println("Testing for bellman ford: " + g.path("A","D") + " ::: Weight: " + g.pathWeight("A","D"));
+        System.out.println("Testing for bellman ford: " + g.path("A","E") + " ::: Weight: " + g.pathWeight("A","E"));
+        System.out.println("Testing for bellman ford: " + g.path("A","F") + " ::: Weight: " + g.pathWeight("A","F"));
+        System.out.println("Testing for bellman ford: " + g.path("A","G") + " ::: Weight: " + g.pathWeight("A","G"));
+        System.out.println("Testing for bellman ford: " + g.path("A","H") + " ::: Weight: " + g.pathWeight("A","H"));
+
+
+        System.out.println("\n***DIJKSTRA***");
+        System.out.println("Dijkstra: " + g.dijkstra("A"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","A") + " ::: Weight: " + g.pathWeight("A","A"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","B") + " ::: Weight: " + g.pathWeight("A","B"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","C") + " ::: Weight: " + g.pathWeight("A","C"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","D") + " ::: Weight: " + g.pathWeight("A","D"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","E") + " ::: Weight: " + g.pathWeight("A","E"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","F") + " ::: Weight: " + g.pathWeight("A","F"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","G") + " ::: Weight: " + g.pathWeight("A","G"));
+        System.out.println("Testing for Dijkstra: " + g.path("A","H") + " ::: Weight: " + g.pathWeight("A","H"));
+
         g.source = "A";
         g.sink = "H";
+
+        System.out.println("\n***MAX FLOW***");
+        System.out.println("Source: " + g.source + " ::: Sink: " + g.sink);
         System.out.println("Max flow: " + g.maxFlow());
-        System.out.println(g.toString());
+        System.out.println("\nFull graph after flow: \n" + g.toString());
+
+        System.out.println("\n**********************");
+        System.out.println("***CONFERENCE GRAPH***");
+        System.out.println("**********************");
+
+        //Conference graph
+        Graph conference = new Graph();
+
+        /*
+        I just made print statements saying what subjects I was using, how many papers
+         there were for each subject, the names of each teacher, and how many papers each teacher could grade,
+         and what specialty is the teachers had. Then I ran the hours down and had print out my network just
+         with my normal to string method
+         */
+        System.out.println("Conference graph details: ");
+        System.out.println("In this graph, there are 4 reviewers: A,B,C, and D.");
+        System.out.println("Each reviewer can grade 2 papers.");
+        System.out.println("Reviewer's A's specialities are topics 1 and 2");
+        System.out.println("Reviewer's B's specialities are topics 3 and 1");
+        System.out.println("Reviewer's C's specialities are topics 3 and 4");
+        System.out.println("Reviewer's D's specialities are topics 4 and 5");
+        System.out.println("\n");
+
+        //Connect each reviewer to a source
+        conference.addEdge("Source","A", 3);
+        conference.addEdge("Source","B", 5);
+        conference.addEdge("Source","C", 7);
+        conference.addEdge("Source","D", 9);
+
+        //connect each paper to a reviewer
+        conference.addEdge("A", "1", 4);
+        conference.addEdge("A", "2", 5);
+
+        conference.addEdge("B", "3", 2);
+        conference.addEdge("B", "1", 8);
+
+        conference.addEdge("C", "3", 6);
+        conference.addEdge("C", "4", 9);
+
+        conference.addEdge("D", "4", 9);
+        conference.addEdge("D", "5", 9);
+
+        //connect the sink to each paper
+        conference.addEdge("1","Sink",7);
+        conference.addEdge("2","Sink",5);
+        conference.addEdge("3","Sink",8);
+        conference.addEdge("4","Sink",6);
+        conference.addEdge("5","Sink",6);
+
+        conference.source = "Source";
+        conference.sink = "Sink";
+
+        System.out.println("***MAX FLOW***");
+        System.out.println("Max flow for conference: " + conference.maxFlow());
+        System.out.println("\n" + conference.toString());
+
     }
 
     //these numbers represent the different colors of nodes depending on their state
@@ -474,6 +558,7 @@ public class Graph {
                     dot.append("    " + output + "[style=\"bold\"];\n");
                     break;
             }
+
             s.append(vertices.get(key) + "\n");
         }
 
@@ -652,7 +737,7 @@ public class Graph {
             path.clear();
             return null;
         } else {
-            System.out.println("About to add: " + e.parent.label);
+//            System.out.println("About to add: " + e.parent.label);
             if(path.size()==0) {
                 path.add(e.parent.label);
             } else {
@@ -667,7 +752,7 @@ public class Graph {
     public double pathWeight(String startVertex, String endVertex) {
         // You implement this method
         double totalWeight = 0;
-        System.out.println("\nPath weight from " + startVertex + " to " + endVertex);
+//        System.out.println("\nPath weight from " + startVertex + " to " + endVertex);
         return pathWeightHelper(totalWeight, startVertex, endVertex);
     }
 
