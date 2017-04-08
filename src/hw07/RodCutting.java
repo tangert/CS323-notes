@@ -35,8 +35,7 @@ public class RodCutting {
         System.out.println("Rod cut 2: " + rodCutter.rodCut2(prices.size(), prices, results));
         System.out.println("Rod cut 3: " + rodCutter.rodCut3(prices.size(), prices, results));
 
-        List<String> resOps = new ArrayList<String>();
-
+        ArrayList<String> resOps = new ArrayList<String>();
         System.out.println("Cost of changing davide to fossati: " + rodCutter.editDistance("davide","fossati",1,1,1, resOps));
 
     }
@@ -153,30 +152,30 @@ public class RodCutting {
         for (int i = 1; i <= m; i++) {
             for (int j = 1; j <= n; j++) {
 
-                //compare delete to other operations
-                if (operationIsMinimal(deleteCost, insertCost, replaceCost, costs, i, j)
-                        && x.charAt(i - 1) != y.charAt(j - 1)) {
+                //If they're not the same character...
+                if(x.charAt(i - 1) != y.charAt(j - 1)) {
 
-                    operations[i - 1][j - 1] = "remove " + x.charAt(i - 1);
-                    costs[i][j] = deleteCost + costs[i - 1][j];
+                    //If delete is minimal
+                    if (operationIsMinimal(deleteCost, insertCost, replaceCost, costs, i, j)) {
+                        operations[i - 1][j - 1] = "remove " + x.charAt(i - 1);
+                        costs[i][j] = deleteCost + costs[i - 1][j];
 
-                    //compare insert to other operations
-                } else if (operationIsMinimal(insertCost, deleteCost, replaceCost, costs, i, j)
-                        && x.charAt(i - 1) != y.charAt(j - 1)) {
+                        //If insert is minimal
+                    } else if (operationIsMinimal(insertCost, deleteCost, replaceCost, costs, i, j)) {
+                        operations[i - 1][j - 1] = "insert " + y.charAt(j - 1);
+                        costs[i][j] = insertCost + costs[i][j - 1];
 
-                    operations[i - 1][j - 1] = "insert " + y.charAt(j - 1);
-                    costs[i][j] = insertCost + costs[i][j - 1];
+                        //If replacement is minimal
+                    } else {
+                        operations[i - 1][j - 1] = "replace " + x.charAt(i - 1) + " with " + y.charAt(j - 1);
+                        costs[i][j] = replaceCost + costs[i - 1][j - 1];
+                    }
 
-                    //character is the same
-                } else if (x.charAt(i - 1) == y.charAt(j - 1)) {
-
+                } else {
+                    //No change in the character
                     operations[i - 1][j - 1] = "no change here!";
                     costs[i][j] = costs[i - 1][j - 1];
 
-                    //replacement character
-                } else {
-                    operations[i - 1][j - 1] = "replace " + x.charAt(i - 1) + " with " + y.charAt(j - 1);
-                    costs[i][j] = replaceCost + costs[i - 1][j - 1];
                 }
             }
         }
