@@ -16,27 +16,110 @@ public class RodCutting {
         List<Integer> results = new ArrayList<Integer>();
 
         //Adding the prices
-        prices.add(5.0);
-        prices.add(4.0);
-        prices.add(3.0);
-        prices.add(7.0);
-        prices.add(8.0);
-        prices.add(3.0);
-        prices.add(2.0);
         prices.add(1.0);
+        prices.add(5.0);
+        prices.add(8.0);
+        prices.add(9.0);
+        prices.add(10.0);
+        prices.add(17.0);
+        prices.add(17.0);
+        prices.add(20.0);
+        prices.add(24.0);
+        prices.add(30.0);
 
-        int[] prices2 = new int[prices.size()];
+        System.out.println("\n*****************");
+        System.out.println("***ROD CUTTING***");
+        System.out.println("*****************\n");
 
-        for (int i = 0; i < prices.size(); i++) {
-            prices2[i] = prices.get(i).intValue();
-        }
+        int length;
 
-        System.out.println("Rod cut 1: " + rodCutter.rodCut1(prices.size(), prices, results));
-        System.out.println("Rod cut 2: " + rodCutter.rodCut2(prices.size(), prices, results));
-        System.out.println("Rod cut 3: " + rodCutter.rodCut3(prices.size(), prices, results));
+        length = 4;
+
+        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println();
+        length = 7;
+
+        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println();
+        length = 8;
+
+        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
+        System.out.println(results);
+        results.clear();
+
+        System.out.println("\n*******************");
+        System.out.println("***EDIT DISTANCE***");
+        System.out.println("*******************\n");
 
         ArrayList<String> resOps = new ArrayList<String>();
-        System.out.println("Cost of changing davide to fossati: " + rodCutter.editDistance("davide","fossati",1,1,1, resOps));
+
+        String str1 = "hello";
+        String str2 = "mellow";
+        System.out.println("Cost of changing " + str1 + " to " + str2 + ": " +
+                rodCutter.editDistance(str1,str2,1,1,1, resOps));
+
+        for(int i = 0; i < resOps.size(); i++) {
+            System.out.println("Step " + (i+1) + ": " + resOps.get(i));
+        }
+
+        resOps.clear();
+
+        System.out.println();
+
+        str1 = "tyler";
+        str2 = "bobby";
+
+        System.out.println("Cost of changing " + str1 + " to " + str2 + ": " +
+                rodCutter.editDistance(str1,str2,1,1,1, resOps));
+
+        for(int i = 0; i < resOps.size(); i++) {
+            System.out.println("Step " + (i+1) + ": " + resOps.get(i));
+        }
+
+        resOps.clear();
+
+        System.out.println();
+
+        str1 = "hamburger";
+        str2 = "cranberry";
+
+        System.out.println("Cost of changing " + str1 + " to " + str2 + ": " +
+                rodCutter.editDistance(str1,str2,1,1,1, resOps));
+
+        for(int i = 0; i < resOps.size(); i++) {
+            System.out.println("Step " + (i+1) + ": " + resOps.get(i));
+        }
+
 
     }
 
@@ -45,13 +128,30 @@ public class RodCutting {
 
         if (length == 0) return 0;
 
-        double maxRevenue = Double.NEGATIVE_INFINITY;
+        ArrayList<Integer> helperCuts = new ArrayList<Integer>(length);
+        double maxRev = rodCut1Aux(length, prices, helperCuts);
 
-        for (int i = 1; i <= length; i++) {
-            maxRevenue = Math.max(maxRevenue, prices.get(i - 1) + rodCut1(length - i, prices, resultCuts));
+        int i = length;
+        while (i > 0) {
+            resultCuts.add(helperCuts.get(i));
+            i-= helperCuts.get(i).intValue();
         }
 
-        return maxRevenue;
+        return maxRev;
+    }
+
+    public double rodCut1Aux(int length, List<Double> prices, List<Integer> resultCuts) {
+
+        if (length == 0) return 0;
+
+        double maxRev = Double.NEGATIVE_INFINITY;
+
+        for (int i = 1; i <= length; i++) {
+            maxRev = Math.max(maxRev, prices.get(i - 1) + rodCut1Aux(length - i, prices, resultCuts));
+            resultCuts.add(i);
+        }
+
+        return maxRev;
     }
 
     //top-down recursion with memoization
@@ -62,10 +162,19 @@ public class RodCutting {
             r[i] = Double.NEGATIVE_INFINITY;
         }
 
-        return rodCut2Aux(length, prices, r);
+        ArrayList<Integer> helperCuts = new ArrayList<Integer>(length);
+        double maxRevenue = rodCut2Aux(length, prices, r, helperCuts);
+
+        int i = length;
+        while (i > 0) {
+            resultCuts.add(helperCuts.get(i));
+            i-= helperCuts.get(i).intValue();
+        }
+
+        return maxRevenue;
     }
 
-    public double rodCut2Aux(int length, List<Double> prices, Double[] r) {
+    public double rodCut2Aux(int length, List<Double> prices, Double[] r, List<Integer> resultCuts) {
 
         double maxRev;
 
@@ -80,7 +189,8 @@ public class RodCutting {
             maxRev = Double.NEGATIVE_INFINITY;
 
             for (int i = 1; i <= length; i++) {
-                maxRev = Math.max(maxRev, prices.get(i - 1) + rodCut2Aux(length - i, prices, r));
+                maxRev = Math.max(maxRev, prices.get(i - 1) + rodCut2Aux(length - i, prices, r, resultCuts));
+                resultCuts.add(i);
             }
         }
 
@@ -96,16 +206,25 @@ public class RodCutting {
         double[] r = new double[length + 1];
         r[0] = 0.0;
 
+
+        ArrayList<Integer> helperCuts = new ArrayList<Integer>(length);
+
         for (int j = 1; j <= length; j++) {
 
-            double q = Double.NEGATIVE_INFINITY;
+            double maxRev = Double.NEGATIVE_INFINITY;
 
             for (int i = 1; i <= j; i++) {
-                q = Math.max(q, prices.get(i - 1) + r[j - i]);
-                System.out.println(q);
+                maxRev = Math.max(maxRev, prices.get(i - 1) + r[j - i]);
+                helperCuts.add(i);
             }
 
-            r[j] = q;
+            r[j] = maxRev;
+        }
+
+        int i = length;
+        while (i > 0) {
+            resultCuts.add(helperCuts.get(i));
+            i-= helperCuts.get(i).intValue();
         }
 
         return r[length];
@@ -161,11 +280,11 @@ public class RodCutting {
                         costs[i][j] = deleteCost + costs[i - 1][j];
 
                         //If insert is minimal
-                    } else if (operationIsMinimal(insertCost, deleteCost, replaceCost, costs, i, j)) {
+                    } else if (operationIsMinimal(insertCost, replaceCost, deleteCost, costs, i, j)) {
                         operations[i - 1][j - 1] = "insert " + y.charAt(j - 1);
                         costs[i][j] = insertCost + costs[i][j - 1];
 
-                        //If replacement is minimal
+                        //replacement is minimal
                     } else {
                         operations[i - 1][j - 1] = "replace " + x.charAt(i - 1) + " with " + y.charAt(j - 1);
                         costs[i][j] = replaceCost + costs[i - 1][j - 1];
@@ -187,10 +306,16 @@ public class RodCutting {
         //this travels diagonally up the 2D array to find the necessary operations
         while (m > 1 && n > 1) {
 
-            int min = min(costs[m-1][n], costs[m-1][n-1], costs[m][n-1]);
+            int above = costs[m-1][n];
+            int diagonal = costs[m-1][n-1];
+            int left = costs[m][n-1];
+            int minOp = min(above, diagonal, left);
 
-            if (min == costs[m-1][n-1]) {
+            if (minOp == diagonal) {
+
                 resultOperations.add(operations[m-2][n-2]);
+
+                //handles edge cases for unequal m x n
                 if (m == 2 && n > 2) {
                     n--;
                 } else if (n == 2 && m > 2) {
@@ -199,7 +324,8 @@ public class RodCutting {
                     m--;
                     n--;
                 }
-            } else if (min == costs[m-1][n]) {
+
+            } else if (minOp == above) {
                 resultOperations.add(operations[m-2][n-1]);
                 m--;
             } else {
@@ -211,11 +337,11 @@ public class RodCutting {
         //reverses to place in order
         Collections.reverse(resultOperations);
 
+        System.out.println("Cost table: ");
         for(int[] cost: costs) {
-            System.out.println(Arrays.toString(cost) + "\n");
+            System.out.println(Arrays.toString(cost));
         }
-
-        System.out.println(resultOperations);
+        System.out.println();
 
         //returns the last element
         return costs[x.length()][y.length()];
