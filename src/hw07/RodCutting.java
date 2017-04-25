@@ -12,71 +12,6 @@ public class RodCutting {
 
         RodCutting rodCutter = new RodCutting();
 
-        List<Double> prices = new ArrayList<Double>();
-        List<Integer> results = new ArrayList<Integer>();
-
-        //Adding the prices
-        prices.add(1.0);
-        prices.add(5.0);
-        prices.add(8.0);
-        prices.add(9.0);
-        prices.add(10.0);
-        prices.add(17.0);
-        prices.add(17.0);
-        prices.add(20.0);
-        prices.add(24.0);
-        prices.add(30.0);
-
-        System.out.println("\n*****************");
-        System.out.println("***ROD CUTTING***");
-        System.out.println("*****************\n");
-
-        int length;
-
-        length = 4;
-
-        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println();
-        length = 7;
-
-        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println();
-        length = 8;
-
-        System.out.println("Rod cut 1 with length " + length + ": " + rodCutter.rodCut1(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 2 with length " + length + ": " + rodCutter.rodCut2(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
-        System.out.println("Rod cut 3 with length " + length + ": " + rodCutter.rodCut3(length, prices, results));
-        System.out.println(results);
-        results.clear();
-
         System.out.println("\n*******************");
         System.out.println("***EDIT DISTANCE***");
         System.out.println("*******************\n");
@@ -156,6 +91,7 @@ public class RodCutting {
 
     //top-down recursion with memoization
     public double rodCut2(int length, List<Double> prices, List<Integer> resultCuts) {
+
         Double[] r = new Double[length + 1];
 
         for (int i = 0; i <= length; i++) {
@@ -174,7 +110,7 @@ public class RodCutting {
         return maxRevenue;
     }
 
-    public double rodCut2Aux(int length, List<Double> prices, Double[] r, List<Integer> resultCuts) {
+    public double rodCut2Aux(int length, List<Double> prices, Double[] r, List<Integer> helperCuts) {
 
         double maxRev;
 
@@ -189,8 +125,8 @@ public class RodCutting {
             maxRev = Double.NEGATIVE_INFINITY;
 
             for (int i = 1; i <= length; i++) {
-                maxRev = Math.max(maxRev, prices.get(i - 1) + rodCut2Aux(length - i, prices, r, resultCuts));
-                resultCuts.add(i);
+                maxRev = Math.max(maxRev, prices.get(i - 1) + rodCut2Aux(length - i, prices, r, helperCuts));
+                helperCuts.add(i);
             }
         }
 
@@ -337,14 +273,7 @@ public class RodCutting {
         //reverses to place in order
         Collections.reverse(resultOperations);
 
-        System.out.println("Cost table: ");
-        for(int[] cost: costs) {
-            System.out.println(Arrays.toString(cost));
-        }
-        System.out.println();
-
         //returns the last element
         return costs[x.length()][y.length()];
     }
 }
-
